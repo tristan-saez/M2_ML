@@ -3,6 +3,6 @@
 ## Description
 ---
 
-blablabla
+Projet M2 - Machine Learning
 
 ---
