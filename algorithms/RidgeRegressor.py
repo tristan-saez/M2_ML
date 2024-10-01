@@ -1,4 +1,7 @@
 def ridge_regressor(data):
+
+    car_seats_bdd = pd.read_csv("data/Carseats.csv")
+    ozone_bdd = pd.read_table("data/ozone_complet.txt", sep = ";")
     pass
 
 #faire une fonction stnaderdised(...) Qui standardise les donnée en soustrayant par la moyenne et divisant par l'écar type
