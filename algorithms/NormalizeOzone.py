@@ -36,11 +36,6 @@ def normalizeOzone(data) -> pd.DataFrame:
 
     return data
 
-
-def visualizeOzone(data):
-    blank
-
-
 def testPreProcessingOzone():
     X_train, X_test, Y_train, Y_test = PreProcessingOzone(
         'M2_ML/data/ozone_complet.txt', ';')
