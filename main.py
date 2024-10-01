@@ -1,5 +1,5 @@
 import pandas as pd
-from code import *
+import algorithms as al
 
 
 def main():
@@ -19,14 +19,19 @@ def main():
 
     if choice == 1:
         print("=" * 50, "\nARBRE DE DÉCISION\n" + "=" * 50)
+        al.DecisionTree.decision_tree(car_seats_bdd)
     elif choice == 2:
         print("=" * 50, "\nFORÊTS ALÉATOIRES\n" + "=" * 50)
+        al.RandomForest.random_forest(car_seats_bdd)
     elif choice == 3:
         print("=" * 50, "\nRÉGRESSION RIDGE\n" + "=" * 50)
+        al.RidgeRegressor.ridge_regressor(ozone_bdd)
     elif choice == 4:
         print("=" * 50, "\nRÉGRESSION LASSO\n" + "=" * 50)
+        al.LassoRegressor.lasso_regressor(ozone_bdd)
     elif choice == 5:
         print("=" * 50, "\nSVM\n" + "=" * 50)
+        al.SVM.svm(ozone_bdd)
     else:
         print("Choix non reconnu")
 
