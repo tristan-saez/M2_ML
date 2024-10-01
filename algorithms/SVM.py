@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def svm():
+def svm(data):
     pass
 
 
