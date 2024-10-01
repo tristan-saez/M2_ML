@@ -1,6 +1,7 @@
 def ridge_regressor(data):
     pass
 
+#faire une fonction stnaderdised(...) Qui standardise les donnée en soustrayant par la moyenne et divisant par l'écar type
 
 """
 import numpy as np
