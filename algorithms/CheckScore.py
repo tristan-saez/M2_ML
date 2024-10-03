@@ -49,7 +49,7 @@ def get_conf_matrix(y_true, y_pred):
 
 
 def show_conf_matrix(conf_mat):
-    disp = mt.ConfusionMatrixDisplay(conf_mat, display_labels=True)
+    disp = mt.ConfusionMatrixDisplay(conf_mat)
     disp.plot()
     plt.show()
 
