@@ -24,7 +24,7 @@ def main():
     # Driver code 
   
     # Model training     
-    model = RidgeRegressor.RidgeRegressor( iterations = 2000,learning_rate = 0.01, l2_penality = 0 ) 
+    model = RidgeRegressor.RidgeRegressor( iterations = 1000,learning_rate = 0.01, l2_penality = 5 ) 
     model.fit( X_train, Y_train ) 
       
     # Prediction on test set 
@@ -42,6 +42,6 @@ def main():
     mean_absolute_error=mean_absolute_error/i
     print("mean absoulte error : ", mean_absolute_error)
 
-    
+
 if __name__ == '__main__':
     main()
