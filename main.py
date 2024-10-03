@@ -24,7 +24,7 @@ def main():
     # Driver code 
   
     # Model training     
-    model = RidgeRegressor.RidgeRegressor( iterations = 1000,learning_rate = 0.01, l2_penality = 0.1 ) 
+    model = RidgeRegressor.RidgeRegressor( iterations = 2000,learning_rate = 0.01, l2_penality = 0 ) 
     model.fit( X_train, Y_train ) 
       
     # Prediction on test set 
@@ -33,41 +33,15 @@ def main():
     print( "Real values      ", Y_test[:3] )     
     print( "Trained W        ", round( model.W[0], 2 ) )     
     print( "Trained b        ", round( model.b, 2 ) ) 
-
+    
     i=0
     mean_absolute_error=0
-    for pred in Y_pred:
-        mean_absolute_error+=abs(pred-Y_test[i])
+    for index in Y_pred.index:
+        mean_absolute_error+=abs(Y_pred[index]-Y_test[index])
         i+=1
     mean_absolute_error=mean_absolute_error/i
     print("mean absoulte error : ", mean_absolute_error)
-    """
-    print("1")
-    print(Y_test)
-    print("2")
-    print(Y_pred)
-    print("3")
-    print(Y_test.shape)
-    print("4")
-    print(Y_pred.shape)
-    print("5")
-    print(Y_test.index)
-    print("6")
-    print(Y_pred.index)
-    print("ok")
 
-    # Visualization on test set  
-    Y_test_plot=Y_test.to_numpy()   
-    Y_pred_plot=Y_pred.to_numpy()    
-    Y_test_plot_index=Y_test.index.to_numpy()    
-    Y_pred_plot_index=Y_pred.index.to_numpy()     
-    print(Y_pred_plot.shape)
-    print(Y_test_plot.shape)
-    print(Y_test_plot_index.shape)
-    plt.scatter( Y_test_plot_index, Y_test_plot, color = 'blue' )     
-    plt.plot( Y_test_plot_index, Y_pred_plot, color = 'orange' )
-    plt.show() 
-    """
-
+    
 if __name__ == '__main__':
     main()
