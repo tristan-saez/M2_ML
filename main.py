@@ -16,7 +16,7 @@ def main():
     ozone_bdd = pd.read_table("data/ozone_complet.txt", sep = ";")
     print(ozone_bdd)
     RidgeRegressor.ridge_regressor(ozone_bdd)
-
+    print("fin")
 
 
 if __name__ == '__main__':
