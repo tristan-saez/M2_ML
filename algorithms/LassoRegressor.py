@@ -66,7 +66,8 @@ class LassoRegression():
     def predict(self, X):
         return X.dot(self.w) + self.b
 
-def lasso_regressor(X_train, Y_train, X_test, Y_test):
+
+def lasso_regressor(X_train, X_test, Y_train, Y_test):
     """
     Crée un objet LassoRegression, entraîne le modèle, l'évalue et le compare avec la méthode associée scikit-learn.
         Paramètres :
