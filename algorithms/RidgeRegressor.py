@@ -5,18 +5,22 @@ def ridge_regressor(data):
 
     LAMBDA=2
     # Define dataset (X,y)
-    X = np.array([[0.8,  1.2,  0.5,  -0.7, 1.0],
+    X0 = np.array([[0.8,  1.2,  0.5,  -0.7, 1.0],
               [1.0,  0.8,  -0.4, 0.5,  -1.2],
               [-0.5, 0.3,  1.2,  0.9,  -0.1],
               [0.2,  -0.9, -0.7, 1.1,  0.5]])
 
-    y = np.array([3.2, 2.5, 1.8, 2.9])
+    y0 = np.array([3.2, 2.5, 1.8, 2.9])
 
     #X[["T6","T9","T12","T15","T18","Ne6","Ne9","Ne12","Ne15","Ne18","Vdir6","Vvit6","Vdir9","Vvit9","Vdir12","Vvit12","Vdir15","Vvit15","Vdir18","Vvit18","Vx"]]=data.to_numpy()
     X=data.to_numpy()
-
+    y=data.index.to_numpy()
+    test1=X.nanmean(axis=0)
+    test2=X.nanstd(axis=0)
+    test3=X0.mean(axis=0)
+    test4=X0.std(axis=0)
     # Scale predictors
-    X_scale = (X-X.mean(axis=0))/X.std(axis=0)
+    X_scale = (X-X.nanmean(axis=0))/X.nanstd(axis=0)
 
     # RIDGE REGRESSION MODEL - coefficients estimation
     # X*X^T + LAMBDA*I
