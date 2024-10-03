@@ -22,6 +22,10 @@ def PreProcessingOzone(file_path, sep):
 def cleanData(data) -> pd.DataFrame:
     # Supression des colonnes inutiles
     data = data.drop("maxO3v", axis=1)
+
+    # Supression des lignes ayant des données NaT ou NaN
+    data = data.dropna()
+
     return data
 
 
