@@ -27,8 +27,8 @@ def svm_reg(X_train, X_test, Y_train, Y_test):
     model = SVR(kernel='rbf', C=1, gamma=1)
     model.fit(X_train, Y_train)
 
-    res_model = round(model.score(X_test, Y_test)*100,2)
-    return Y_test,res_model
+    res_model = model.predict(X_test)
+    return Y_test, res_model
 ############################################SVC######################################################
 # import numpy as np
 # import matplotlib.pyplot as plt
