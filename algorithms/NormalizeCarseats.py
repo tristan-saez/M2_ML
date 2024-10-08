@@ -9,7 +9,7 @@ DEFINITIONS = {}
 def PreProcessingCarSeats(file_path, sep) -> pd.DataFrame:
 
     data = convertToCSVCarSeats(file_path, sep)
-    data, new_label_association = cleanDataCarSeats(data)
+    data = cleanDataCarSeats(data)
     data = normalizeCarSeats(data)
 
     X = data.drop("High", axis=1)
@@ -115,7 +115,6 @@ def non_binary_plot(data_no, data_yes, non_binary_column):
                            labels=labels)  # will be used to label x-ticks
 
         plt.show()
-        pass
 
 
 def testPreProcessingCarSeats():
