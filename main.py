@@ -26,6 +26,7 @@ def main():
     print("=" * 50, "\nCHOIX ALGORITHME\n"+"=" * 50+"\n1. Arbre de décisions\n2. Forêts aléatoires\n"
                                                     "3. Régression ridge\n4. Régression lasso\n"
                                                     "5. SVM (karim)\n6. SVM (tristan)")
+
     choice = int(input("\n>"))
 
     if choice == 1:
