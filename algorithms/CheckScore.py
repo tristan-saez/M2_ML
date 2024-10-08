@@ -33,7 +33,7 @@ def regressor_scoring(y_true, y_pred):
 
     max_err = mt.max_error(y_true, y_pred)
     print(f"max error : {max_err:.4f}")
-    rms_err = mt.root_mean_squared_error(y_true, y_pred)
+    rms_err = mt.mean_squared_error(y_true, y_pred)
     print(f"Root Mean Squared error : {rms_err:.4f}")
     r2 = mt.r2_score(y_true, y_pred)
     print(f"r2 score : {r2:.4f}")
