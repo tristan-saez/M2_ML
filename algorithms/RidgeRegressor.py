@@ -3,6 +3,8 @@
 import numpy as np 
 import pandas as pd 
 
+from sklearn.linear_model import Ridge
+
   
 # Ridge Regression 
   
@@ -51,6 +53,26 @@ class RidgeRegressor() :
     # Hypothetical function  h( x )  
     def predict( self, X ) :     
         return X.dot( self.W ) + self.b 
+    
+
+
+class RidgeRegressorSklearn():
+
+    def __init__( self , l2_penality) : 
+        self.l2_penality = l2_penality 
+        self.modele_ridge_regressor = Ridge(alpha=self.l2_penality )
+    
+    def fit( self, X_train, Y_train ):
+        self.modele_ridge_regressor.fit(X_train, Y_train)
+    
+    def predict(self, X_test):
+        return self.modele_ridge_regressor.predict(X_test)
+
+"""
+def RidgeRegressorSklearn(l2_penality, X_train, Y_train):
+    modele_ridge_regressor = Ridge(alpha=1.0)
+    modele_ridge_regressor.fit(X_train, Y_train)
+"""
     
     
 """

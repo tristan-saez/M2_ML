@@ -4,6 +4,9 @@ import os
 import matplotlib.pyplot as plt 
 from algorithms import NormalizeOzone
 from algorithms import RidgeRegressor
+from algorithms import RidgeRegressorSklearn
+import time
+
 
 
 
@@ -22,17 +25,15 @@ def main():
     X_train, X_test, Y_train, Y_test = NormalizeOzone.PreProcessingOzone(cwd+'/data/ozone_complet.txt', ';')
     #RidgeRegressor.ridge_regressor(X_train, X_test, Y_train, Y_test )
     # Driver code 
+
+    start_time1 = time.time()
   
     # Model training     
     model = RidgeRegressor.RidgeRegressor( iterations = 1000,learning_rate = 0.01, l2_penality = 5 ) 
-    model.fit( X_train, Y_train ) 
+    model.fit(X_train, Y_train) 
       
     # Prediction on test set 
     Y_pred = model.predict( X_test )     
-    print( "Predicted values ", np.round( Y_pred[:3], 2 ) )      
-    print( "Real values      ", Y_test[:3] )     
-    print( "Trained W        ", round( model.W[0], 2 ) )     
-    print( "Trained b        ", round( model.b, 2 ) ) 
     
     i=0
     mean_absolute_error=0
@@ -40,8 +41,34 @@ def main():
         mean_absolute_error+=abs(Y_pred[index]-Y_test[index])
         i+=1
     mean_absolute_error=mean_absolute_error/i
-    print("mean absoulte error : ", mean_absolute_error)
+    print("--- %s secondes pour le ridge regressor sans sklearn ---" % (time.time() - start_time1))
+    print("mean absoulte error de ridge regressor sans sklearn : ", mean_absolute_error)
 
+
+
+###############################################################################################
+#A PARTIR DE MAINTENANT METHODE AVEC sklearn
+###############################################################################################
+
+
+    start_time2 = time.time()
+  
+    # Model training     
+    model2 = RidgeRegressorSklearn.RidgeRegressorSklearn( iterations = 1000,learning_rate = 0.01, l2_penality = 5 ) 
+    model.fit(X_train, Y_train) 
+      
+    # Prediction on test set 
+    Y_pred = model.predict( X_test )     
+
+    i=0
+    mean_absolute_error=0
+    for index in Y_pred.index:
+        mean_absolute_error+=abs(Y_pred[index]-Y_test[index])
+        i+=1
+    mean_absolute_error=mean_absolute_error/i
+    print("--- %s secondes pour le ridge regressor sans sklearn ---" % (time.time() - start_time2))
+    print("mean absoulte error de ridge regressor sans sklearn : ", mean_absolute_error)
+    
 
 if __name__ == '__main__':
     main()
