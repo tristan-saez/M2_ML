@@ -11,7 +11,7 @@ import pandas as pd
 #import plotly.express as px
 #import pprint 
 #from NormalizeCarseats import PreProcessingCarSeats
-
+from sklearn.tree import DecisionTreeClassifier 
 
     
 
@@ -378,3 +378,27 @@ def decision_tree(X_train, X_test, Y_train, Y_test) :
     print(f"Model's Accuracy: {accuracy(Y_test, predictions)}")
     print(f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), predictions)}")
     return Y_test, predictions
+
+
+# ========== DECISION TREE SCIKIT-LEARN ==========
+def decision_tree_sklearn(X_train, X_test, Y_train, Y_test):
+    """
+    Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la valeur de sortie à partir de la base de test.
+        Paramètres :
+                    X_train : Features du set d'entraînement
+                    Y_train : Feature à prédire du set d'entraînement
+                    X_test : Features du set de test
+                    Y_test : Feature réelle du set d'entraînement
+        Retourne :
+                    Y_test : Valeur cible réelle
+                    Y_pred : Valeur cible prédite du set de test par le modèle
+    """
+    # Define model. Specify a number for random_state to ensure same results each run
+    clf = DecisionTreeClassifier(random_state=1)
+
+    # entrainement du model
+    clf.fit(X_train, Y_train)
+    # Prédiction
+    Y_pred = clf.predict(X_test)
+
+    return Y_test, Y_pred
