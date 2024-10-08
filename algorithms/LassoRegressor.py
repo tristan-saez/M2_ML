@@ -36,11 +36,11 @@ class LassoRegression():
         self.m, self.n = X.shape
         self.w = np.zeros(self.n)
         self.b = 0
-        self.X = X
-        self.Y = Y
+        self.X = X.to_numpy()
+        self.Y = Y.to_numpy()
         for i in range(self.iterations):
             self.update_weights()
-            return self
+        return self
         
     # Met à jour les poids pour l'algorithme de descente (gradient descent)
     # Correspond à l'application de la pénalité L1
