@@ -1,5 +1,6 @@
 # M2_ML (Projet M2 - Machine Learning)
-![Used languages](https://skillicons.dev/icons?i=python,sklearn)
+![PyPI - Version](https://img.shields.io/pypi/v/scikit-learn?logo=scikit-learn&label=scikit-learn&color=f49b3c)
+
 
 ## Description
 
