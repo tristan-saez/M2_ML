@@ -1,5 +1,7 @@
 # M2_ML (Projet M2 - Machine Learning)
 ![PyPI - Version](https://img.shields.io/pypi/v/scikit-learn?logo=scikit-learn&label=scikit-learn&color=f49b3c)
+![PyPI - Version](https://img.shields.io/pypi/v/pandas?logo=pandas&label=pandas&color=10074c)
+![PyPI - Version](https://img.shields.io/pypi/v/cvxopt?logo=cvxopt&label=cvxopt)
 
 
 ## Description
