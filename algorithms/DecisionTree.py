@@ -3,14 +3,14 @@ author : celine dussuelle
 creation 01/10/2024"""
 
 
-import math
+#import math
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.express as px
-import pprint 
-from NormalizeCarseats import PreProcessingCarSeats
+#import matplotlib.pyplot as plt
+#import seaborn as sns
+#import plotly.express as px
+#import pprint 
+#from NormalizeCarseats import PreProcessingCarSeats
 
 
     
@@ -361,32 +361,20 @@ def balanced_accuracy(y_true, y_pred):
     return balanced_acc
 
 
+def decision_tree(X_train, X_test, Y_train, Y_test) :
 
+    
+    #create model instance
+    model = DecisionTree(2, 2)
 
-df = pd.read_csv('ML_project_code/data/Carseats.csv')
+    # Fit the decision tree model to the training data.
+    model.fit(X_train, Y_train.to_frame())
+    #print(X_test.head())
+    # Use the trained model to make predictions on the test data.
+    print(type(X_test))
+    predictions = model.predict(X_test.to_numpy())
 
-df.head()
-
-X_train, X_test, Y_train, Y_test = PreProcessingCarSeats('ML_project_code/data/Carseats.csv', ",")
-
-# X_train.head()
-# Y_train.head()
-
-
-
-#create model instance
-model = DecisionTree(2, 2)
-
-
-
-
-# Fit the decision tree model to the training data.
-model.fit(X_train, Y_train.to_frame())
-#print(X_test.head())
-# Use the trained model to make predictions on the test data.
-print(type(X_test))
-predictions = model.predict(X_test.to_numpy())
-
-# Calculate evaluating metrics
-print(f"Model's Accuracy: {accuracy(Y_test, predictions)}")
-print(f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), predictions)}")
+    # Calculate evaluating metrics
+    print(f"Model's Accuracy: {accuracy(Y_test, predictions)}")
+    print(f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), predictions)}")
+    return Y_test, predictions
