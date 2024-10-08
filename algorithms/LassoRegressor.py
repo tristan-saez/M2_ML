@@ -25,6 +25,11 @@ class LassoRegression():
         self.iterations = iterations
         self.learning_rate = learning_rate
         self.l1_penalty = l1_penalty
+        self.m, self.n = None, None
+        self.w = None
+        self.b = 0
+        self.X = None
+        self.Y = None
 
     # Méthode d'entraînement
     def fit(self, X, Y):
