@@ -1,7 +1,10 @@
+
+
 import pandas as pd
 import numpy as np
+from sklearn import linear_model as lm
 
-# Classe Lasso Regression
+# ========== REGRESSION LASSO FROM SCRATCH ==========
 class LassoRegression():
     """
     Une classe pour la régression L1 (ou LASSO)
@@ -18,7 +21,7 @@ class LassoRegression():
         Méthodes :
                     fit : entraîne le modèle
                     update_weights : met à jour le poids de l'algorithme de descente
-                    predict :
+                    predict : prédit à partir du modèle
     """
     #Constructeur
     def __init__(self, iterations, learning_rate, l1_penalty):
@@ -74,21 +77,21 @@ class LassoRegression():
 
 def lasso_regressor(X_train, X_test, Y_train, Y_test):
     """
-    Crée un objet LassoRegression, entraîne le modèle, l'évalue et le compare avec la méthode associée scikit-learn.
+    Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la valeur de sortie à partir de la base de test.
         Paramètres :
                     X_train : Features du set d'entraînement
                     Y_train : Feature à prédire du set d'entraînement
                     X_test : Features du set de test
                     Y_test : Feature réelle du set d'entraînement
         Retourne :
-                    Y_test
+                    Y_test : Valeur cible réelle
                     Y_pred : Valeur cible prédite du set de test par le modèle
     """
     # Entraînement du modèle
     model = LassoRegression(
-        iterations=1000,
-        learning_rate=0.01,
-        l1_penalty=500
+        iterations=5000,
+        learning_rate=0.005,
+        l1_penalty=1000
     )
     model.fit(X_train, Y_train)
 
@@ -96,7 +99,31 @@ def lasso_regressor(X_train, X_test, Y_train, Y_test):
     Y_pred = model.predict(X_test)
 
     # Vérifications sur les 3 dernières valeurs du set de test
-    print(f"Predicted values : {np.round(Y_pred[:3],2)}")
-    print(f"Real balues : {Y_test[:3]}")
+    print(f"Predicted values :\n{np.round(Y_pred[:3],2)}")
+    print(f"\n\nReal values :\n{Y_test[:3]}")
+
+    return Y_test, Y_pred
+
+# ========== REGRESSION LASSO SCIKIT-LEARN ==========
+def lasso_regressor_sklearn(X_train, X_test, Y_train, Y_test):
+    """
+    Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la valeur de sortie à partir de la base de test.
+        Paramètres :
+                    X_train : Features du set d'entraînement
+                    Y_train : Feature à prédire du set d'entraînement
+                    X_test : Features du set de test
+                    Y_test : Feature réelle du set d'entraînement
+        Retourne :
+                    Y_test : Valeur cible réelle
+                    Y_pred : Valeur cible prédite du set de test par le modèle
+    """
+    # Création du classifieur
+    clf = lm.Lasso(alpha=0.1)
+
+    # Entraînement du modèle
+    clf.fit(X_train, Y_train)
+
+    # Prédiction
+    Y_pred = clf.predict(X_test)
 
     return Y_test, Y_pred
