@@ -15,7 +15,7 @@ def PreProcessingOzone(file_path, sep):
     Y = data["maxO3"]
 
     X_train, X_test, Y_train, Y_test = skmodel.train_test_split(
-        X, Y, test_size=0.30, random_state=42)
+        X, Y, test_size=0.20, random_state=42)
 
     return X_train, X_test, Y_train, Y_test
 
