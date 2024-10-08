@@ -3,8 +3,8 @@ from algorithms import DecisionTree
 from algorithms import RandomForest
 from algorithms import RidgeRegressor
 from algorithms import LassoRegressor
-from algorithms import SVM_karim
-from algorithms import SVM_tristan
+from algorithms import SVM_Carseats
+from algorithms import SVM_Ozone
 from algorithms import NormalizeOzone
 from algorithms import NormalizeCarseats
 from algorithms import CheckScore
@@ -46,11 +46,11 @@ def main():
         CheckScore.check_score("regressor", y_test, y_pred)
     elif choice == 5:
         print("=" * 50, "\nSVM\n" + "=" * 50)
-        y_test, y_pred = SVM_karim.svm(x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats)
+        y_test, y_pred = SVM_Carseats.svm(x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats)
         CheckScore.check_score("classifier", y_test, y_pred)
     elif choice == 6:
         print("=" * 50, "\nSVM\n" + "=" * 50)
-        y_test, y_pred = SVM_tristan.svm(x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone)
+        y_test, y_pred = SVM_Ozone.svm(x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone)
         CheckScore.check_score("regressor", y_test, y_pred)
     else:
         print("Choix non reconnu")
