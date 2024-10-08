@@ -1,13 +1,15 @@
 from sklearn import metrics as mt
 from matplotlib import pyplot as plt
 
+def check_score(type, y_true, y_pred, start_time, end_time):
 
-def check_score(type, y_true, y_pred):
     """
 
     :param type: class of algorithm (classifier / regressor)
     :param y_true: true labels of dataset
     :param y_pred: predicted labels of dataset
+    :param start_time: time at the start of the training & prediction
+    :param end_time: time at the end of the training & prediction
     """
     if type == "classifier":
         classifier_scoring(y_true, y_pred)
@@ -15,6 +17,7 @@ def check_score(type, y_true, y_pred):
         show_conf_matrix(conf_mat)
     elif type == "regressor":
         regressor_scoring(y_true, y_pred)
+    print(f"\nExécution des calculs : {end_time-start_time:.3f} secondes")
 
 
 def classifier_scoring(y_true, y_pred):
