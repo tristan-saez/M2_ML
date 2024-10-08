@@ -1,5 +1,6 @@
 import pandas as pd
 import sklearn.model_selection as skmodel
+import matplotlib.pyplot as plt
 
 DEFINITIONS = {}
 
@@ -7,7 +8,7 @@ DEFINITIONS = {}
 def PreProcessingOzone(file_path, sep):
 
     data = convertToCSVOzone(file_path, sep)
-    data = cleanData(data)
+    data = cleanDataOzone(data)
     data = normalizeOzone(data)
 
     X = data.drop("maxO3", axis=1)
@@ -19,7 +20,7 @@ def PreProcessingOzone(file_path, sep):
     return X_train, X_test, Y_train, Y_test
 
 
-def cleanData(data) -> pd.DataFrame:
+def cleanDataOzone(data) -> pd.DataFrame:
     # Supression des colonnes inutiles
     data = data.drop("maxO3v", axis=1)
 
@@ -41,8 +42,48 @@ def normalizeOzone(data) -> pd.DataFrame:
     return data
 
 
-def visualizeOzone(data):
-    blank
+def visualizeOzone(file_path, sep):
+    data = convertToCSVOzone(file_path, sep)
+    data = cleanDataOzone(data)
+    data = normalizeOzone(data)
+    # Définition des types de colonnes
+    y = ["T6",
+         "T9",
+         "T12",
+         "T15",
+         "T18",
+         "Ne6",
+         "Ne9",
+         "Ne12",
+         "Ne15",
+         "Ne18",
+         "Vdir6",
+         "Vvit6",
+         "Vdir9",
+         "Vvit9",
+         "Vdir12",
+         "Vvit12",
+         "Vdir15",
+         "Vvit15",
+         "Vdir18",
+         "Vvit18",
+         "Vx"]
+    n_scatter_plot(data, y)
+
+
+def n_scatter_plot(data, column):
+    for column in column:
+        data_xaxis = data["maxO3"].to_numpy()
+        data_yaxis = data[column].to_numpy()
+
+        fig, ax = plt.subplots()
+        ax.set_title('Valeur de High en fonction de la valeur de ' + column)
+        ax.set_xlabel('Valeur normalisé de Max03')
+        ax.set_ylabel('Valeur normalisé de ' + column)
+
+        bplot = ax.scatter(data_xaxis, data_yaxis)
+
+        plt.show()
 
 
 def testPreProcessingOzone():
@@ -51,5 +92,10 @@ def testPreProcessingOzone():
     print(X_train, X_test, Y_train, Y_test)
 
 
+def testVisualizeOzone():
+    visualizeOzone('M2_ML/data/ozone_complet.txt', ';')
+
+
 if __name__ == "__main__":
     testPreProcessingOzone()
+    # testVisualizeOzone()
