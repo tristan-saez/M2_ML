@@ -48,7 +48,7 @@ def main():
         if model_choice() == 1:
             y_test, y_pred = LassoRegressor.lasso_regressor(x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone)
         else:
-            y_test, y_pred = LassoRegressor.lasso_regressor(x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone)
+            y_test, y_pred = LassoRegressor.lasso_regressor_sklearn(x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone)
         CheckScore.check_score("regressor", y_test, y_pred)
     elif choice == 5:
         print("=" * 50, "\nSVM\n" + "=" * 50)
