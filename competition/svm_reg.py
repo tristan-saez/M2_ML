@@ -117,9 +117,6 @@ class svm_reg:
             return res
 
 
-def mean_squared_error(y_true, y_pred):
-    """Calcule l'erreur quadratique moyenne du modèle."""
-    return np.mean((y_true - y_pred) ** 2)
 
 """
 La classe « svm_reg » implémente un modèle de régression utilisant la méthode des Machines à Vecteurs de Support pour la régression. 
