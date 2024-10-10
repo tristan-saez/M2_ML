@@ -10,9 +10,9 @@ def PreProcessingCarSeats(file_path, sep) -> pd.DataFrame:
 
     data = convertToCSVCarSeats(file_path, sep)
     data = cleanDataCarSeats(data)
-    data = normalizeCarSeats(data)
 
     X = data.drop("High", axis=1)
+    X = normalizeCarSeats(X)
     Y = data["High"]
 
     X_train, X_test, Y_train, Y_test = skmodel.train_test_split(
