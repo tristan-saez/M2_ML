@@ -172,9 +172,9 @@ def random_forest(X_train, X_test, Y_train, Y_test):
     Y_pred = model.predict(X_test.to_numpy())
 
     # Vérifications sur les 3 dernières valeurs du set de test
-    print(f"Model's Accuracy: {accuracy(Y_test, Y_pred)}")
-    print(
-        f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), Y_pred)}")
+    # print(f"Model's Accuracy: {accuracy(Y_test, Y_pred)}")
+    # print(
+    #     f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), Y_pred)}")
 
     return Y_test, Y_pred
 
@@ -185,9 +185,9 @@ def random_forest_sklearn(X_train, X_test, Y_train, Y_test):
     Y_pred = clf.predict(X_test)
 
     # Vérifications sur les 3 dernières valeurs du set de test
-    print(f"Model's Accuracy: {accuracy(Y_test, Y_pred)}")
-    print(
-        f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), Y_pred)}")
+    # print(f"Model's Accuracy: {accuracy(Y_test, Y_pred)}")
+    # print(
+    #     f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), Y_pred)}")
 
     return Y_test, Y_pred
 
