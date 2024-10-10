@@ -10,6 +10,8 @@ from algorithms import NormalizeOzone
 from algorithms import NormalizeCarseats
 from algorithms import CheckScore
 from algorithms import sklearn_svm
+from competition import Normalize_reg
+from competition import Normalize_classification
 
 
 def main():
