@@ -154,7 +154,7 @@ def svm(X_train, X_test, Y_train, Y_test):
     Y_test = Y_test.values
     
     
-    model = svm_reg(m_type='linear', C=0.01, gamma=0.001)
+    model = svm_reg(m_type='linear', C=0.001, gamma=0.001)
     model.fit(X_train, Y_train)
     
     
