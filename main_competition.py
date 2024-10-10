@@ -4,10 +4,8 @@ from algorithms import DecisionTree
 from algorithms import RandomForest
 from algorithms import RidgeRegressor
 from algorithms import LassoRegressor
-from algorithms import SVM_Carseats
-from algorithms import SVM_Ozone
-from algorithms import NormalizeOzone
-from algorithms import NormalizeCarseats
+#from algorithms import SVM_Carseats
+#from algorithms import SVM_Ozone
 from algorithms import CheckScore
 from algorithms import sklearn_svm
 from competition import Normalize_reg
@@ -25,11 +23,11 @@ def main():
 
     # Effectue les étapes de pre-processing
     x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats = (
-        NormalizeCarseats.PreProcessingCarSeats("data/Carseats.csv", ","))
+        Normalize_classification.PreProcessing("competition/data/hitters_train.csv", "competition/data/hitters_test.csv",","))
 
     # Effectue les étapes de pre-processing
     x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone = (
-        NormalizeOzone.PreProcessingOzone("data/ozone_complet.txt", ";"))
+        Normalize_reg.PreProcessing("competition/data/hitters_train.csv", "competition/data/hitters_test.csv",","))
 
     # Permet à l'utilisateur de choisir l'algorithme à entraîner
     print("=" * 50, "\nCHOIX ALGORITHME\n"+"=" * 50+"\n1. Arbre de décisions\n2. Forêts aléatoires\n"
