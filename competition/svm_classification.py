@@ -1,5 +1,4 @@
 import numpy as np
-from algorithms.NormalizeCarseats import PreProcessingCarSeats
 from cvxopt import matrix, solvers
 
 # Régressseur SVM
@@ -179,10 +178,10 @@ class svm_class:
             return res
 
 
-#def accuracy_score(y_true, y_pred):
-#    """Calcule la précision du modèle."""
-#    correct_predictions = np.sum(y_true == y_pred)
-#    return correct_predictions / len(y_true) if len(y_true) > 0 else 0
+def accuracy_score(y_true, y_pred):
+    """Calcule la précision du modèle."""
+    correct_predictions = np.sum(y_true == y_pred)
+    return correct_predictions / len(y_true) if len(y_true) > 0 else 0
 
 def svm(X_train, X_test, Y_train, Y_test):
     """
@@ -204,23 +203,23 @@ def svm(X_train, X_test, Y_train, Y_test):
     X_test = X_test.values
     Y_test = Y_test.values
 
-    model = svm_class(m_type='rbf', C=10000000, gamma=220)
+    model = svm_class(m_type='rbf', C=750, gamma=10)
     model.fit(X_train, Y_train)
 
     res_model = model.predict(X_test)
     return Y_test, res_model
 
 # if __name__ == "__main__":
-#     X_train, X_test, Y_train, Y_test = PreProcessingCarSeats('data/Carseats.csv', ',')
+#     X_train, X_test, Y_train, Y_test = PreProcessing('Hitters_train.csv', 'Hitters_test.csv',',')
 #     X_train = X_train.values
 #     Y_train = Y_train.values
 #     X_test = X_test.values
 #     Y_test = Y_test.values
 
 #     param_grid = {
-#         'C': [0.01, 0.1, 1, 10, 100, 150, 200, 400, 500, 600, 750, 850, 1000],
+#         'C': [0.01, 0.1, 1, 10, 100, 150, 200, 400, 500, 600, 750, 850, 1000, 100000, 1000000, 10000000],
 #         'gamma': [0.1, 1, 10, 20, 50, 100, 120, 160, 200, 220, 260, 500],
-#         'm_type': ['rbf']  
+#         'm_type': ['linear', 'rbf']   
 #     }
 
 #     best_accuracy = 0

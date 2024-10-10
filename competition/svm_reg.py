@@ -1,5 +1,4 @@
 import numpy as np
-from algorithms.NormalizeOzone import PreProcessingOzone
 from cvxopt import matrix, solvers
 from itertools import product
 
@@ -118,9 +117,9 @@ class svm_reg:
             return res
 
 
-#def mean_squared_error(y_true, y_pred):
-#    """Calcule l'erreur quadratique moyenne du modèle."""
-#    return np.mean((y_true - y_pred) ** 2)
+def mean_squared_error(y_true, y_pred):
+    """Calcule l'erreur quadratique moyenne du modèle."""
+    return np.mean((y_true - y_pred) ** 2)
 
 """
 La classe « svm_reg » implémente un modèle de régression utilisant la méthode des Machines à Vecteurs de Support pour la régression. 
@@ -155,20 +154,23 @@ def svm(X_train, X_test, Y_train, Y_test):
     Y_test = Y_test.values
     
     
-    model = svm_reg(m_type='rbf', C=0.001, gamma=0.001)
+    model = svm_reg(m_type='linear', C=0.01, gamma=0.001)
     model.fit(X_train, Y_train)
     
     
     predictions = model.predict(X_test)
     return Y_test, predictions
     
-# X_train, X_test, Y_train, Y_test = PreProcessingOzone('data/ozone_complet.txt', ';')
+# X_train, X_test, Y_train, Y_test = PreProcessing('Hitters_train.csv', 'Hitters_test.csv',',')
 # y_test, predictions=svm(X_train, X_test, Y_train, Y_test)
+# mse = mean_squared_error(Y_test, predictions)
+# print(mse)
+
 
     
 # if __name__ == "__main__":
 
-#     X_train, X_test, Y_train, Y_test = PreProcessingOzone('data/ozone_complet.txt', ';')
+#     X_train, X_test, Y_train, Y_test = PreProcessing('Hitters_train.csv', 'Hitters_test.csv',',')
 #     X_train = X_train.values
 #     Y_train = Y_train.values
 #     X_test = X_test.values
@@ -177,7 +179,7 @@ def svm(X_train, X_test, Y_train, Y_test):
 #     param_grid = {
 #         'C': [0.001, 0.01, 0.1, 1, 10, 100, 500, 1000],  
 #         'gamma': [0.001, 0.01, 0.1, 1, 10, 50, 100],     
-#         'm_type': ['linear', 'polynomial', 'rbf', 'sigmoid']  
+#         'm_type': ['linear']  
 #     }
 
 #     best_mse = float("inf")
@@ -199,3 +201,4 @@ def svm(X_train, X_test, Y_train, Y_test):
 
 #     print("Meilleure configuration de paramètres :", best_params)
 #     print("Meilleur MSE obtenu :", round(best_mse, 4))
+

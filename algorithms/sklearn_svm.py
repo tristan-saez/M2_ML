@@ -1,7 +1,7 @@
 from sklearn.svm import SVC
 from sklearn.svm import SVR
 
-
+# Nous utilisons ici la SVM pour effectuer une tâche de classification en utilisant sklearn.
 def svm_classification(X_train, X_test, Y_train, Y_test):
 
     X_train = X_train.values
@@ -16,6 +16,7 @@ def svm_classification(X_train, X_test, Y_train, Y_test):
     res_model = model.predict(X_test)
     return Y_test,res_model
 
+#  Nous utilisons ici la SVM pour effectuer une tâche de régression en utilisant sklearn.
 def svm_reg(X_train, X_test, Y_train, Y_test):
 
     X_train = X_train.values
@@ -29,6 +30,7 @@ def svm_reg(X_train, X_test, Y_train, Y_test):
 
     res_model = model.predict(X_test)
     return Y_test, res_model
+    
 ############################################SVC######################################################
 # import numpy as np
 # import matplotlib.pyplot as plt

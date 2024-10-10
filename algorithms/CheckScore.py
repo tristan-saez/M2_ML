@@ -12,15 +12,15 @@ def check_score(type, y_true, y_pred, start_time, end_time):
     :param end_time: time at the end of the training & prediction
     """
     if type == "classifier":
-        classifier_scoring(y_true, y_pred)
+        classifier_scoring(y_true, y_pred, start_time, end_time)
         conf_mat = get_conf_matrix(y_true, y_pred)
         show_conf_matrix(conf_mat)
     elif type == "regressor":
-        regressor_scoring(y_true, y_pred)
-    print(f"\nExécution des calculs : {end_time-start_time:.3f} secondes")
+        regressor_scoring(y_true, y_pred, start_time, end_time)
 
 
-def classifier_scoring(y_true, y_pred):
+
+def classifier_scoring(y_true, y_pred, start_time, end_time):
     print("["+"="*20+" CLASSIFIER SCORING "+"="*20+"]\n")
 
     accuracy = mt.accuracy_score(y_true, y_pred)
@@ -29,17 +29,19 @@ def classifier_scoring(y_true, y_pred):
     print(f"f1 score : {f1_score:.4f}")
     recall = mt.recall_score(y_true, y_pred)
     print(f"recall : {recall*100}%")
+    print(f"\nExécution des calculs : {end_time - start_time:.3f} secondes")
 
     print("\n[" + "=" * 20 + " CLASSIFIER SCORING " + "=" * 20 + "]")
 
 
-def regressor_scoring(y_true, y_pred):
+def regressor_scoring(y_true, y_pred, start_time, end_time):
     print("[" + "=" * 20 + " REGRESSOR SCORING " + "=" * 20 + "]\n")
 
     max_err = mt.max_error(y_true, y_pred)
     print(f"max error : {max_err:.4f}")
     rms_err = mt.mean_squared_error(y_true, y_pred)
     print(f"Mean Squared error : {rms_err:.4f}")
+    print(f"\nExécution des calculs : {end_time - start_time:.3f} secondes")
 
     print("\n[" + "=" * 20 + " REGRESSOR SCORING " + "=" * 20 + "]")
 
