@@ -148,7 +148,7 @@ def balanced_accuracy(y_true, y_pred):
     return balanced_acc
 
 
-def random_forest_scratch(X_train, X_test, Y_train, Y_test):
+def random_forest(X_train, X_test, Y_train, Y_test):
     """
     Crée un objet Random_Forest_Classifier, entraîne le modèle, l'évalue et le compare avec la méthode associée scikit-learn.
         Paramètres :

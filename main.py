@@ -61,7 +61,7 @@ def main():
         else:
             # Lance le chronomètre de temps d'apprentissage
             start_time = timer()
-            y_test, y_pred = RandomForest.random_forest(x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats)
+            y_test, y_pred = RandomForest.random_forest_sklearn(x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats)
 
         # Arrête le chronomètre de temps d'apprentissage
         end_time = timer()
