@@ -1,7 +1,16 @@
-""" This file is is the classification and regression trees algorithm  
+"""
+Ce fichier utilise l'algorithme arbre de décision (utilisant la classification) 
 author : celine dussuelle 
 creation 01/10/2024"""
 
+# To do's :
+# Traduire les commentaires
+# completer le rapport avec mes données en utilisant le main 
+# foret aleatoire pas vraiment aléatoire. => problème ? 
+
+#################################################################################################
+####################################### IMPORTATIONS ############################################
+#################################################################################################
 
 #import math
 import numpy as np
@@ -13,26 +22,29 @@ import pandas as pd
 #from NormalizeCarseats import PreProcessingCarSeats
 from sklearn.tree import DecisionTreeClassifier 
 
-    
+#################################################################################################
+######################################### CLASSES ###############################################
+#################################################################################################
+
 
 
 class Node():
     """
-    A class representing a node in a decision tree.
+    Classe représentant un noeud dans l'arbre de décision
     """
 
     def __init__(self, feature=None, threshold=None, left=None, right=None, gain=None, value=None):
         """
-        Initializes a new instance of the Node class.
+        Initialise une nouvelle instance de la classe Node.
 
-        Args:
-            feature: The feature used for splitting at this node. Defaults to None.
-            threshold: The threshold used for splitting at this node. Defaults to None.
-            left: The left child node. Defaults to None.
-            right: The right child node. Defaults to None.
-            gain: The gain of the split. Defaults to None.
-            value: If this node is a leaf node, this attribute represents the predicted value
-                for the target variable. Defaults to None.
+        Arguments :
+            feature : La caractéristique utilisée pour diviser à ce nœud. Par défaut à None.
+            threshold : Le seuil utilisé pour diviser à ce nœud. Par défaut à None.
+            left : Le nœud enfant gauche. Par défaut à None.
+            right : Le nœud enfant droit. Par défaut à None.
+            gain : Le gain de la division. Par défaut à None.
+            value : Si ce nœud est une feuille, cet attribut représente la valeur prédite 
+                    pour la variable cible. Par défaut à None.
         """
         self.feature = feature
         self.threshold = threshold
@@ -44,134 +56,143 @@ class Node():
 
 class DecisionTree():
     """
-    A decision tree classifier for binary classification problems.
+    Un classificateur d'arbre de décision pour des problèmes de classification binaire.
     """
 
     def __init__(self, min_samples=2, max_depth=2):
         """
-        Constructor for DecisionTree class.
+        Constructeur de la classe DecisionTree.
 
-        Parameters:
-            min_samples (int): Minimum number of samples required to split an internal node.
-            max_depth (int): Maximum depth of the decision tree.
+        Paramètres :
+        min_samples (int) : Nombre minimum d'échantillons requis pour diviser un nœud interne.
+        max_depth (int) : Profondeur maximale de l'arbre de décision.
         """
         self.min_samples = min_samples
         self.max_depth = max_depth
 
     def split_data(self, dataset, feature, threshold):
         """
-        Splits the given dataset into two datasets based on the given feature and threshold.
+        Divise le jeu de données donné en deux sous-ensembles selon la caractéristique et le seuil spécifiés.
 
-        Parameters:
-            dataset (ndarray): Input dataset.
-            feature (int): Index of the feature to be split on.
-            threshold (float): Threshold value to split the feature on.
+        Paramètres :
+            dataset (ndarray) : Jeu de données d'entrée.
+            feature (int) : Indice de la caractéristique sur laquelle diviser.
+            threshold (float) : Valeur seuil pour diviser la caractéristique.
 
-        Returns:
-            left_dataset (ndarray): Subset of the dataset with values less than or equal to the threshold.
-            right_dataset (ndarray): Subset of the dataset with values greater than the threshold.
+        Renvoie :
+            left_dataset (ndarray) : Sous-ensemble du jeu de données avec des valeurs inférieures ou égales au seuil.
+            right_dataset (ndarray) : Sous-ensemble du jeu de données avec des valeurs supérieures au seuil.
         """
-        # Create empty arrays to store the left and right datasets
+        
+        # Creation de numpy arrays pour stocker les données de gauche et les données de droite. 
         left_dataset = []
         right_dataset = []
         
-        # Loop over each row in the dataset and split based on the given feature and threshold
+        # Boucle sur chaque ligne des données et les séparent en fonction de 'feature' (la caractéristique)
+        # et threshold (le seuil)
         for row in dataset:
             if row[feature] <= threshold:
                 left_dataset.append(row)
             else:
                 right_dataset.append(row)
 
-        # Convert the left and right datasets to numpy arrays and return
+        
+        # Conversion des données de gauche et des données de droite en numpy arrays. 
         left_dataset = np.array(left_dataset)
         right_dataset = np.array(right_dataset)
         return left_dataset, right_dataset
 
     def entropy(self, y):
         """
-        Computes the entropy of the given label values.
+        Calcule l'entropie des valeurs d'étiquettes fournies.
 
-        Parameters:
-            y (ndarray): Input label values.
+        Paramètres :
+            y (ndarray) : Valeurs d'étiquettes en entrée.
 
-        Returns:
-            entropy (float): Entropy of the given label values.
+        Renvoie :
+            entropy (float) : Entropie des valeurs d'étiquettes fournies.
         """
         entropy = 0
 
-        # Find the unique label values in y and loop over each value
+        
+        # Trouver les valeurs de label uniques dans y et boucle sur chaque valeur
         labels = np.unique(y)
         for label in labels:
-            # Find the examples in y that have the current label
-            label_examples = y[y == label]
-            # Calculate the ratio of the current label in y
+            
+            # Trouver les exemples dans y qui possèdent le label actuel
+            label_examples = y[y == label]           
+            # Calcul du ratio du label actuel dans y
             pl = len(label_examples) / len(y)
-            # Calculate the entropy using the current label and ratio
+            # Calcul de l'entropie en utilisant l'actuel label et ratio 
             entropy += -pl * np.log2(pl)
 
-        # Return the final entropy value
+        # Retour de la valeur entropie
         return entropy
 
     def information_gain(self, parent, left, right):
         """
-        Computes the information gain from splitting the parent dataset into two datasets.
+        Calcule le gain d'information en divisant le jeu de données parent en deux sous-ensembles.
 
-        Parameters:
-            parent (ndarray): Input parent dataset.
-            left (ndarray): Subset of the parent dataset after split on a feature.
-            right (ndarray): Subset of the parent dataset after split on a feature.
+        Paramètres :
+            parent (ndarray) : Jeu de données parent en entrée.
+            left (ndarray) : Sous-ensemble du jeu de données parent après division selon une caractéristique.
+            right (ndarray) : Sous-ensemble du jeu de données parent après division selon une caractéristique.
 
-        Returns:
-            information_gain (float): Information gain of the split.
+        Renvoie :
+            information_gain (float) : Gain d'information de la division.
         """
-        # set initial information gain to 0
+        # Initialisation de la variable information_gain à 0
         information_gain = 0
-        # compute entropy for parent
+        # Calcul de l'entropie du jeu de données parent
         parent_entropy = self.entropy(parent)
-        # calculate weight for left and right nodes
+        # Calcul du poids de chaque noeud (droite et gauche)
         weight_left = len(left) / len(parent)
         weight_right= len(right) / len(parent)
-        # compute entropy for left and right nodes
+        # calcul de l'entropie pour chaque noeud
         entropy_left, entropy_right = self.entropy(left), self.entropy(right)
-        # calculate weighted entropy 
+        # calcul de l'entropie pondérée
         weighted_entropy = weight_left * entropy_left + weight_right * entropy_right
-        # calculate information gain 
+        # Calcul du gain d'information de la division 
         information_gain = parent_entropy - weighted_entropy
         return information_gain
 
     
     def best_split(self, dataset, num_samples, num_features):
         """
-        Finds the best split for the given dataset.
+        Trouve la meilleure division pour le jeu de données donné.
 
-        Args:
-        dataset (ndarray): The dataset to split.
-        num_samples (int): The number of samples in the dataset.
-        num_features (int): The number of features in the dataset.
+        Arguments :
+            dataset (ndarray) : Le jeu de données à diviser.
+            num_samples (int) : Le nombre d'échantillons dans le jeu de données.
+            num_features (int) : Le nombre de caractéristiques dans le jeu de données.
 
-        Returns:
-        dict: A dictionary with the best split feature index, threshold, gain, 
-              left and right datasets.
+        Renvoie :
+            dict : Un dictionnaire avec l'indice de la meilleure caractéristique pour diviser, le seuil, 
+                le gain, ainsi que les sous-ensembles gauche et droit.
         """
-        # dictionary to store the best split values
+        
+        # initialisation d'un dictionnaire pour stocker les meilleures valeurs pour séparer les données
         best_split = {'gain':- 1, 'feature': None, 'threshold': None}
-        # loop over all the features
+        # Boucle sur toutes les caractéristiques
         for feature_index in range(num_features):
-            #get the feature at the current feature_index
+            
+            # récupération de la caractéristique 
             feature_values = dataset[:, feature_index]
-            #get unique values of that feature
+            # Récupération des valeurs uniques pour cette caractéristique
             thresholds = np.unique(feature_values)
-            # loop over all values of the feature
+            # boucle sur toutes les valeurs de la caractéristique 
             for threshold in thresholds:
-                # get left and right datasets
+                # Séparation des données en 2
                 left_dataset, right_dataset = self.split_data(dataset, feature_index, threshold)
-                # check if either datasets is empty
+                # Vérifier si l'un des dataset est vide
                 if len(left_dataset) and len(right_dataset):
-                    # get y values of the parent and left, right nodes
+                    # Récupération des valeur y pour le noeud parent, le noeud de de gauche et le noeud de droite                    
                     y, left_y, right_y = dataset[:, -1], left_dataset[:, -1], right_dataset[:, -1]
-                    # compute information gain based on the y values
+                    
+                    # Calcul du gain d'information basé sur les valeurs y
                     information_gain = self.information_gain(y, left_y, right_y)
-                    # update the best split if conditions are met
+                    
+                    # actualise la meilleure separation de données si les conditions sont bonnes
                     if information_gain > best_split["gain"]:
                         best_split["feature"] = feature_index
                         best_split["threshold"] = threshold
@@ -183,105 +204,106 @@ class DecisionTree():
     
     def calculate_leaf_value(self, y):
         """
-        Calculates the most occurring value in the given list of y values.
+       Calcule la valeur la plus fréquente dans la liste des valeurs y données.
 
-        Args:
-            y (list): The list of y values.
+        Arguments :
+            y (list) : La liste des valeurs y.
 
-        Returns:
-            The most occurring value in the list.
+        Renvoie :
+            La valeur la plus fréquente dans la liste.
         """
         y = list(y)
-        #get the highest present class in the array
+        # Récupération de la valeur la plus fréquente dans la liste des valeur y
         most_occuring_value = max(y, key=y.count)
         return most_occuring_value
     
     def build_tree(self, dataset, current_depth=0):
         """
-        Recursively builds a decision tree from the given dataset.
+        Construit récursivement un arbre de décision à partir du jeu de données donné.
 
-        Args:
-        dataset (ndarray): The dataset to build the tree from.
-        current_depth (int): The current depth of the tree.
+        Arguments :
+            dataset (ndarray) : Le jeu de données pour construire l'arbre.
+            current_depth (int) : La profondeur actuelle de l'arbre.
 
-        Returns:
-        Node: The root node of the built decision tree.
+        Renvoie :
+            Node : Un noeud de décision si l'arbre est toujours en construction. Un noeud feuille si ce n'est pas le cas
         """
-        # split the dataset into X, y values
+        
+        # Séparation du dataset en 2 (X et y)
         X, y = dataset[:, :-1], dataset[:, -1]
         n_samples, n_features = X.shape
-        # keeps spliting until stopping conditions are met
+        # Si le nombre d'échantillons est supérieur ou égal à self.min_samples et que la profondeur actuelle est 
+        # inférieure ou égale à self.max_depth, l'algorithme continue de diviser. Sinon, il arrête de diviser.
+        
         if n_samples >= self.min_samples and current_depth <= self.max_depth:
-            # Get the best split
+            # Récupération de la meilleure séparation
             best_split = self.best_split(dataset, n_samples, n_features)
-            # Check if gain isn't zero
-            if best_split["gain"]:
-                # continue splitting the left and the right child. Increment current depth
+            # Vérifier si le gain n'est pas 0
+            if best_split["gain"]>0:
+                # continuer à diviser le dataset gauche et le dataset droit. Augmention de la profondeur de l'arbre
                 left_node = self.build_tree(best_split["left_dataset"], current_depth + 1)
                 right_node = self.build_tree(best_split["right_dataset"], current_depth + 1)
-                # return decision node
+                # retourne la valeur du noeud
                 return Node(best_split["feature"], best_split["threshold"],
                             left_node, right_node, best_split["gain"])
 
-        # compute leaf node value
+        # calcul de la valeur du noeud feuille
         leaf_value = self.calculate_leaf_value(y)
-        # return leaf node value
+        # retourne la valeur du noeud feuille
         return Node(value=leaf_value)
     
     def fit(self, X, y):
         """
-        Builds and fits the decision tree to the given X and y values.
+        Construit et ajuste l'arbre de décision aux valeurs X et y fournies.
 
-        Args:
-        X (ndarray): The feature matrix.
-        y (ndarray): The target values.
+        Arguments :
+            X (ndarray) : La matrice des caractéristiques.
+            y (ndarray) : Les valeurs cibles.
         """
         dataset = np.concatenate((X, y), axis=1)  
         self.root = self.build_tree(dataset)
 
     def predict(self, X):
         """
-        Predicts the class labels for each instance in the feature matrix X.
+        Prédit les étiquettes de classe pour chaque instance dans la matrice des caractéristiques X.
 
-        Args:
-        X (ndarray): The feature matrix to make predictions for.
+        Arguments :
+            X (ndarray) : La matrice des caractéristiques pour laquelle faire des prédictions.
 
-        Returns:
-        list: A list of predicted class labels.
+        Renvoie :
+            list : Une liste des étiquettes de classe prédites. 
         """
-        #print(" len X", len(X))
-        # Create an empty list to store the predictions
+        
+        # Initialisation d'une liste pour stocker les prédictions
         predictions = []
-        # For each instance in X, make a prediction by traversing the tree
-        for x in X:
-            #print("x",x)
+        # Pour chaque instance de X, faire une prédiction en traversant l'arbre. 
+        for x in X:     
             prediction = self.make_prediction(x, self.root)
-            # Append the prediction to the list of predictions
+            # Ajout de la prédiction dans la liste des prédictions
             predictions.append(prediction)
-        # Convert the list to a numpy array and return it
+
+        # Convertion de la liste en numpy array et la retourne
         np.array(predictions)
         return predictions
     
     def make_prediction(self, x, node):
         """
-        Traverses the decision tree to predict the target value for the given feature vector.
+        Parcourt l'arbre de décision pour prédire la valeur cible pour le vecteur de caractéristiques donné.
 
-        Args:
-        x (ndarray): The feature vector to predict the target value for.
-        node (Node): The current node being evaluated.
+        Arguments :
+            x (ndarray) : Le vecteur de caractéristiques pour lequel prédire la valeur cible.
+            node (Node) : Le nœud actuel évalué.
 
-        Returns:
-        The predicted target value for the given feature vector.
+        Renvoie :
+            La valeur cible prédite pour le vecteur de caractéristiques donné.
         """
-        #print("node.feature",node.feature)
-        #print("x",x)
-        #print("node.threshold",node.threshold)
-
-        # if the node has value i.e it's a leaf node extract it's value
+       
+        # Si le noeud a une valeur c'est une feuille donc on extrait sa valeur. 
+        
         if node.value != None: 
             return node.value
         else:
-            #if it's node a leaf node we'll get it's feature and traverse through the tree accordingly
+            # Sinon c'est un noeud donc on récupère la caractéristique et on parcourt l'arbre en fonction de celle-ci
             feature = x[node.feature]
                         
             if feature <= node.threshold:
@@ -289,71 +311,75 @@ class DecisionTree():
             else:
                 return self.make_prediction(x, node.right)
             
+#################################################################################################
+######################################### FONCTIONS #############################################
+#################################################################################################
 
 
 
 def accuracy(y_true, y_pred):
     """
-    Computes the accuracy of a classification model.
+    Calcule la précision d'un modèle de classification.
 
-    Parameters:
+    Paramètres :
     ----------
-        y_true (numpy array): A numpy array of true labels for each data point.
-        y_pred (numpy array): A numpy array of predicted labels for each data point.
+        y_true (numpy array) : Un tableau numpy des étiquettes réelles pour chaque point de données.
+        y_pred (numpy array) : Un tableau numpy des étiquettes prédites pour chaque point de données.
 
-    Returns:
+    Renvoie :
     ----------
-        float: The accuracy of the model
+        float : La précision du modèle.
     """
-    print("len ytrue" , len(y_true))
-    print("len ypred" ,len(y_pred))
-    #y_true = y_true.flatten()
+   
+    
     total_samples = len(y_true)
     correct_predictions = np.sum(y_true == y_pred)
     return (correct_predictions / total_samples) 
 
 
 def balanced_accuracy(y_true, y_pred):
-    """Calculate the balanced accuracy for a multi-class classification problem.
+    """Calcule la précision équilibrée pour un problème de classification multi-classe.
 
-    Parameters
+    Paramètres
     ----------
-        y_true (numpy array): A numpy array of true labels for each data point.
-        y_pred (numpy array): A numpy array of predicted labels for each data point.
+        y_true (numpy array) : Un tableau numpy des étiquettes réelles pour chaque point de données.
+        y_pred (numpy array) : Un tableau numpy des étiquettes prédites pour chaque point de données.
 
-    Returns
+    Renvoie
     -------
-        balanced_acc : The balanced accuracyof the model
+        balanced_acc : La précision équilibrée du modèle.
         
     """
     y_pred = np.array(y_pred)
     y_true = y_true.flatten()
-    # Get the number of classes
+    # Récupération du nombre de classes
     n_classes = len(np.unique(y_true))
 
-    # Initialize an array to store the sensitivity and specificity for each class
+    # Initialise une liste pour stocker la sensibilité et la spécificité de chaque classe 
+    
     sen = []
     spec = []
-    # Loop over each class
+    # Boucle sur chaque classe
     for i in range(n_classes):
-        # Create a mask for the true and predicted values for class i
+        # Créer un masque pour les valeurs vraies et prédites pour la classe i
         mask_true = y_true == i
         mask_pred = y_pred == i
 
-        # Calculate the true positive, true negative, false positive, and false negative values
+        # Calcul des vrai positif, vrai négatif, faux positif et faux négatif
+        
         TP = np.sum(mask_true & mask_pred)
         TN = np.sum((mask_true != True) & (mask_pred != True))
         FP = np.sum((mask_true != True) & mask_pred)
         FN = np.sum(mask_true & (mask_pred != True))
 
-        # Calculate the sensitivity (true positive rate) and specificity (true negative rate)
+        # Calculer la sensibilité (taux vrai positif) et la spécificité (taux vrai négatif)
         sensitivity = TP / (TP + FN)
         specificity = TN / (TN + FP)
 
-        # Store the sensitivity and specificity for class i
+        # Ajout des deux valeurs (sensibilité et spécificité) dans une liste
         sen.append(sensitivity)
         spec.append(specificity)
-    # Calculate the balanced accuracy as the average of the sensitivity and specificity for each class
+    # Calculer la précision équilibrée comme moyenne de la sensibilité et de la spécificité pour chaque classe
     average_sen =  np.mean(sen)
     average_spec =  np.mean(spec)
     balanced_acc = (average_sen + average_spec) / n_classes
@@ -362,28 +388,39 @@ def balanced_accuracy(y_true, y_pred):
 
 
 def decision_tree(X_train, X_test, Y_train, Y_test) :
-
-    
-    #create model instance
+    """Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la valeur de sortie à partir de la base de test.
+        Paramètres :
+                    X_train : Features du set d'entraînement
+                    Y_train : Feature à prédire du set d'entraînement
+                    X_test : Features du set de test
+                    Y_test : Feature réelle du set d'entraînement
+        Retourne :
+                    Y_test : Valeur cible réelle
+                    Y_pred : Valeur cible prédite du set de test par le modèle"""
+    # Création du model
     model = DecisionTree(2, 2)
 
-    # Fit the decision tree model to the training data.
+    # Application du model sur les données d'entrainement 
     model.fit(X_train, Y_train.to_frame())
-    #print(X_test.head())
-    # Use the trained model to make predictions on the test data.
-    print(type(X_test))
+    
+    # Calcul des prédictions avec les données de test
     predictions = model.predict(X_test.to_numpy())
 
-    # Calculate evaluating metrics
+    # calcul de la précision
     print(f"Model's Accuracy: {accuracy(Y_test, predictions)}")
     print(f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), predictions)}")
     return Y_test, predictions
 
 
-# ========== DECISION TREE SCIKIT-LEARN ==========
+#################################################################################################
+#################################### DECISION TREE SCIKIT-LEARN #################################
+#################################################################################################
+
+
 def decision_tree_sklearn(X_train, X_test, Y_train, Y_test):
     """
-    Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la valeur de sortie à partir de la base de test.
+    Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la 
+    valeur de sortie à partir de la base de test.
         Paramètres :
                     X_train : Features du set d'entraînement
                     Y_train : Feature à prédire du set d'entraînement
@@ -393,11 +430,10 @@ def decision_tree_sklearn(X_train, X_test, Y_train, Y_test):
                     Y_test : Valeur cible réelle
                     Y_pred : Valeur cible prédite du set de test par le modèle
     """
-    # Define model. Specify a number for random_state to ensure same results each run
-    clf = DecisionTreeClassifier(random_state=1)
-
-    # entrainement du model
+     # entrainement du model
+    clf = DecisionTreeClassifier(random_state=1)  
     clf.fit(X_train, Y_train)
+
     # Prédiction
     Y_pred = clf.predict(X_test)
 
