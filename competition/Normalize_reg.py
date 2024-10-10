@@ -32,7 +32,7 @@ def convertToCSV(file_path, sep) -> pd.DataFrame:
 
 def cleanData(data) -> pd.DataFrame:
     # Supression de la colonne ID
-    data = data.drop("name", axis=1)
+    data = data.drop("Unnamed: 0", axis=1)
     #data = data.iloc[: , 1:]
 
     # Conversion des champs de texte en donnée
