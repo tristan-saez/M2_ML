@@ -4,6 +4,7 @@ import os
 import matplotlib.pyplot as plt 
 from algorithms import NormalizeOzone
 from algorithms import RidgeRegressor
+from competition import Normalize_reg
 import time
 
 
@@ -19,7 +20,8 @@ def main():
     """
     #On obtient les données à répartir en base de test et d'apprentissage
     cwd=os.getcwd()
-    X_train, X_test, Y_train, Y_test = NormalizeOzone.PreProcessingOzone(cwd+'/data/ozone_complet.txt', ';')
+    #X_train, X_test, Y_train, Y_test = NormalizeOzone.PreProcessingOzone(cwd+'/data/ozone_complet.txt', ';')
+    X_train, X_test, Y_train, Y_test = Normalize_reg.PreProcessing(cwd+'/competition/data/Hitters_train.csv', cwd+'/competition/data/Hitters_test.csv', ';')
     #La fonction PreProcessingOzone() renvoie répartie 70% des données dans la base d'apprentissage et 30% 
     #dans la base de test
 
