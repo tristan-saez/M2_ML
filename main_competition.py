@@ -19,7 +19,7 @@ def main():
 
     DecisionTree.main(data)
     """
-    
+    3
 
     # Effectue les étapes de pre-processing
     x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats = (

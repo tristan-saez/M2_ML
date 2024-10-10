@@ -8,19 +8,22 @@ DEFINITIONS = {}
 
 def PreProcessing(train_path, test_path, sep) -> pd.DataFrame:
 
+
     data_train = convertToCSV(train_path, sep)
     data_train = cleanData(data_train)
+    Y_train = data_train["Salary"]
     data_train = normalize(data_train)
 
     X_train = data_train.drop("Salary", axis=1)
-    Y_train = data_train["Salary"]
+    
     
     data_test = convertToCSV(test_path, sep)
     data_test = cleanData(data_test)
+    Y_test = data_test["Salary"]
     data_test = normalize(data_test)
 
     X_test = data_test.drop("Salary", axis=1)
-    Y_test = data_test["Salary"]
+    
 
 
     return X_train, X_test, Y_train, Y_test
