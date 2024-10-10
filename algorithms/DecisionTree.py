@@ -1,25 +1,17 @@
 """
 Ce fichier utilise l'algorithme arbre de décision (utilisant la classification) 
-author : celine dussuelle 
-creation 01/10/2024"""
+Code a été élaboré à l'aide des informations fournies sur le site suivant :
+https://www.kaggle.com/code/fareselmenshawii/decision-tree-from-scratch
 
-# To do's :
-# Traduire les commentaires
-# completer le rapport avec mes données en utilisant le main 
-# foret aleatoire pas vraiment aléatoire. => problème ? 
+"""
+
 
 #################################################################################################
 ####################################### IMPORTATIONS ############################################
 #################################################################################################
 
-#import math
 import numpy as np
 import pandas as pd
-#import matplotlib.pyplot as plt
-#import seaborn as sns
-#import plotly.express as px
-#import pprint 
-#from NormalizeCarseats import PreProcessingCarSeats
 from sklearn.tree import DecisionTreeClassifier 
 
 #################################################################################################
@@ -64,7 +56,7 @@ class DecisionTree():
         Constructeur de la classe DecisionTree.
 
         Paramètres :
-        min_samples (int) : Nombre minimum d'échantillons requis pour diviser un nœud interne.
+        min_samples (int) : Nombre minimum d'échantillons requis pour diviser un nœud.
         max_depth (int) : Profondeur maximale de l'arbre de décision.
         """
         self.min_samples = min_samples
@@ -159,7 +151,7 @@ class DecisionTree():
     
     def best_split(self, dataset, num_samples, num_features):
         """
-        Trouve la meilleure division pour le jeu de données donné.
+        Trouve la meilleure division pour le jeu de données.
 
         Arguments :
             dataset (ndarray) : Le jeu de données à diviser.
@@ -176,7 +168,7 @@ class DecisionTree():
         # Boucle sur toutes les caractéristiques
         for feature_index in range(num_features):
             
-            # récupération de la caractéristique 
+            # Récupération de la caractéristique 
             feature_values = dataset[:, feature_index]
             # Récupération des valeurs uniques pour cette caractéristique
             thresholds = np.unique(feature_values)
@@ -192,7 +184,7 @@ class DecisionTree():
                     # Calcul du gain d'information basé sur les valeurs y
                     information_gain = self.information_gain(y, left_y, right_y)
                     
-                    # actualise la meilleure separation de données si les conditions sont bonnes
+                    # Actualise la meilleure separation de données si les conditions sont bonnes
                     if information_gain > best_split["gain"]:
                         best_split["feature"] = feature_index
                         best_split["threshold"] = threshold
@@ -238,18 +230,18 @@ class DecisionTree():
         if n_samples >= self.min_samples and current_depth <= self.max_depth:
             # Récupération de la meilleure séparation
             best_split = self.best_split(dataset, n_samples, n_features)
-            # Vérifier si le gain n'est pas 0
+            # Vérifier si le gain est supérieur à 0 :
             if best_split["gain"]>0:
-                # continuer à diviser le dataset gauche et le dataset droit. Augmention de la profondeur de l'arbre
+                # Continuer à diviser le dataset gauche et le dataset droit. Augmention de la profondeur de l'arbre
                 left_node = self.build_tree(best_split["left_dataset"], current_depth + 1)
                 right_node = self.build_tree(best_split["right_dataset"], current_depth + 1)
-                # retourne la valeur du noeud
+                # Retourne la valeur du noeud
                 return Node(best_split["feature"], best_split["threshold"],
                             left_node, right_node, best_split["gain"])
 
-        # calcul de la valeur du noeud feuille
+        # Calcul de la valeur du noeud feuille
         leaf_value = self.calculate_leaf_value(y)
-        # retourne la valeur du noeud feuille
+        # Retourne la valeur du noeud feuille
         return Node(value=leaf_value)
     
     def fit(self, X, y):
@@ -314,8 +306,6 @@ class DecisionTree():
 #################################################################################################
 ######################################### FONCTIONS #############################################
 #################################################################################################
-
-
 
 def accuracy(y_true, y_pred):
     """
@@ -388,7 +378,8 @@ def balanced_accuracy(y_true, y_pred):
 
 
 def decision_tree(X_train, X_test, Y_train, Y_test) :
-    """Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la valeur de sortie à partir de la base de test.
+    """Crée un objet decision tree, entraîne le modèle à partir de la base d'entraînement et prédit la valeur de 
+    sortie à partir de la base de test.
         Paramètres :
                     X_train : Features du set d'entraînement
                     Y_train : Feature à prédire du set d'entraînement
@@ -406,9 +397,9 @@ def decision_tree(X_train, X_test, Y_train, Y_test) :
     # Calcul des prédictions avec les données de test
     predictions = model.predict(X_test.to_numpy())
 
-    # calcul de la précision
-    print(f"Model's Accuracy: {accuracy(Y_test, predictions)}")
-    print(f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), predictions)}")
+    # Calcul de la précision
+    # print(f"Model's Accuracy: {accuracy(Y_test, predictions)}")
+    # print(f"Model's Balanced Accuracy: {balanced_accuracy(Y_test.to_numpy(), predictions)}")
     return Y_test, predictions
 
 
@@ -419,7 +410,7 @@ def decision_tree(X_train, X_test, Y_train, Y_test) :
 
 def decision_tree_sklearn(X_train, X_test, Y_train, Y_test):
     """
-    Crée un objet LassoRegression, entraîne le modèle à partir de la base d'entraînement et prédit la 
+    Crée un objet decision tree, entraîne le modèle à partir de la base d'entraînement et prédit la 
     valeur de sortie à partir de la base de test.
         Paramètres :
                     X_train : Features du set d'entraînement
@@ -430,7 +421,7 @@ def decision_tree_sklearn(X_train, X_test, Y_train, Y_test):
                     Y_test : Valeur cible réelle
                     Y_pred : Valeur cible prédite du set de test par le modèle
     """
-     # entrainement du model
+    # Entrainement du model
     clf = DecisionTreeClassifier(random_state=1)  
     clf.fit(X_train, Y_train)
 
