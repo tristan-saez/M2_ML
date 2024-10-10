@@ -4,8 +4,8 @@ from algorithms import DecisionTree
 from algorithms import RandomForest
 from algorithms import RidgeRegressor
 from algorithms import LassoRegressor
-#from algorithms import SVM_Carseats
-#from algorithms import SVM_Ozone
+from competition import svm_classification
+from competition import svm_reg
 from algorithms import CheckScore
 from algorithms import sklearn_svm
 from competition import Normalize_reg
@@ -118,7 +118,7 @@ def main():
         if model_choice() == 1:
             # Lance le chronomètre de temps d'apprentissage
             start_time = timer()
-            y_test, y_pred = SVM_Carseats.svm(x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats)
+            y_test, y_pred = svm_classification.svm(x_train_carseats, x_test_carseats, y_train_carseats, y_test_carseats)
         else:
             # Lance le chronomètre de temps d'apprentissage
             start_time = timer()
@@ -134,7 +134,7 @@ def main():
         if model_choice() == 1:
             # Lance le chronomètre de temps d'apprentissage
             start_time = timer()
-            y_test, y_pred = SVM_Ozone.svm(x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone)
+            y_test, y_pred = svm_reg.svm(x_train_ozone, x_test_ozone, y_train_ozone, y_test_ozone)
         else:
             # Lance le chronomètre de temps d'apprentissage
             start_time = timer()
