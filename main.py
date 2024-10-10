@@ -1,4 +1,3 @@
-import pandas as pd
 from timeit import default_timer as timer
 from algorithms import DecisionTree
 from algorithms import RandomForest
