@@ -14,7 +14,6 @@ def PreProcessingOzone(file_path, sep):
     X = normalizeOzone(X)
     Y = data["maxO3"]
 
-
     X_train, X_test, Y_train, Y_test = skmodel.train_test_split(
         X, Y, test_size=0.20, random_state=42)
 
@@ -47,6 +46,7 @@ def visualizeOzone(file_path, sep):
     data = convertToCSVOzone(file_path, sep)
     data = cleanDataOzone(data)
     data = normalizeOzone(data)
+
     # Définition des types de colonnes
     y = ["T6",
          "T9",
@@ -78,8 +78,8 @@ def n_scatter_plot(data, column):
         data_yaxis = data[column].to_numpy()
 
         fig, ax = plt.subplots()
-        ax.set_title('Valeur de High en fonction de la valeur de ' + column)
-        ax.set_xlabel('Valeur normalisé de Max03')
+        ax.set_title('Valeur de MaxO3 en fonction de la valeur de ' + column)
+        ax.set_xlabel('Valeur normalisé de MaxO3')
         ax.set_ylabel('Valeur normalisé de ' + column)
 
         bplot = ax.scatter(data_xaxis, data_yaxis)
@@ -98,5 +98,5 @@ def testVisualizeOzone():
 
 
 if __name__ == "__main__":
-    testPreProcessingOzone()
-    # testVisualizeOzone()
+    # testPreProcessingOzone()
+    testVisualizeOzone()
